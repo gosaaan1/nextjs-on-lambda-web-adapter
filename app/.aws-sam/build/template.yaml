@@ -1,0 +1,33 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'Mentareeding App
+
+  Mentareeding SPA
+
+  '
+Globals:
+  Function:
+    Timeout: 10
+Resources:
+  MentareedingAppFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: app/
+      MemorySize: 256
+      PackageType: Image
+      Architectures:
+      - x86_64
+      Events:
+        HttpEvent:
+          Type: HttpApi
+      ImageUri: mentareedingappfunction:v1
+    Metadata:
+      DockerContext: /home/hokulea/mentareeding/app/app
+      DockerTag: v1
+      Dockerfile: Dockerfile
+      SamResourceId: MentareedingAppFunction
+Outputs:
+  MentareedingAppFunctionURL:
+    Description: API Gateway endpoint URL for Next.js
+    Value:
+      Fn::Sub: https://${ServerlessHttpApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/

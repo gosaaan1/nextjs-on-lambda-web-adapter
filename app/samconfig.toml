@@ -1,0 +1,10 @@
+version = 0.1
+[default.deploy.parameters]
+stack_name = "mentareeding-app"
+resolve_s3 = true
+s3_prefix = "mentareeding-app"
+region = "ap-northeast-1"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+disable_rollback = true
+image_repositories = ["MentareedingAppFunction=525658500115.dkr.ecr.ap-northeast-1.amazonaws.com/mentareedingappd633ccbc/mentareedingappfunctionc1cc885brepo"]
