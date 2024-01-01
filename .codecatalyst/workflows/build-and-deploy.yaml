@@ -15,7 +15,7 @@ Actions:
         - WorkflowSource
     Outputs:
       AutoDiscoverReports:
-        Enabled: true
+        Enabled: false
         ReportNamePrefix: rpt
       Artifacts:
         - Name: build_result
@@ -24,5 +24,11 @@ Actions:
     Configuration:
       Steps:
         - Run: cd app/
-        - Run: sam build --template-file template.yaml --use-container --build-image public.ecr.aws/sam/build-python3.9:$(sam --version | sed "s/.* //")
+        - Run: sam build --template-file template.yaml --use-container --build-image
+            public.ecr.aws/sam/build-python3.9:$(sam --version | sed "s/.* //")
         - Run: sam deploy --no-confirm-changeset
+    Environment:
+      Connections:
+        - Role: CodeCatalystWorkflowDevelopmentRole-hokulea-garage
+          Name: hokulea-garage
+      Name: prd
