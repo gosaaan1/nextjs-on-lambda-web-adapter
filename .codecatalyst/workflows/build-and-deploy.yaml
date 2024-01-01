@@ -1,0 +1,28 @@
+Name: build-and-release
+SchemaVersion: "1.0"
+Triggers:
+  - Type: PUSH
+    Branches:
+      - main
+Compute:
+  Type: EC2
+  Fleet: Linux.x86-64.Large
+Actions:
+  build_and_deploy:
+    Identifier: aws/build@v1
+    Inputs:
+      Sources:
+        - WorkflowSource
+    Outputs:
+      AutoDiscoverReports:
+        Enabled: true
+        ReportNamePrefix: rpt
+      Artifacts:
+        - Name: build_result
+          Files:
+            - "**/*"
+    Configuration:
+      Steps:
+        - Run: cd app/
+        - Run: sam build --template-file template.yaml --use-container --build-image public.ecr.aws/sam/build-python3.9:$(sam --version | sed "s/.* //")
+        - Run: sam deploy --no-confirm-changeset
