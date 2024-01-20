@@ -23,7 +23,6 @@ Actions:
             - "**/*"
     Configuration:
       Steps:
-        - Run: cd app/
         - Run: sam build --template-file template.yaml --use-container --build-image
             public.ecr.aws/sam/build-python3.9:$(sam --version | sed "s/.* //")
         - Run: sam deploy --no-confirm-changeset
